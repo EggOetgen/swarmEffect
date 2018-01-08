@@ -6,6 +6,8 @@
 //
 //
 
+/*THIS CLASS IS BASED ON THE JAVASCRIPT DFO IMPLEMENTATION BY MOHAMMA MAJID AL-RIFAIE WITH ADDED FEATURES AND FITNESS FUNCTION TO WORK WITH AUDI/*/
+
 #pragma once
 
 
@@ -15,8 +17,7 @@
 class fly{
 public:
     fly(double dimensions, float w);
-   // void init(double dimensions, float w);
-    vector<double> returnFeatureVector();
+      vector<double> returnFeatureVector();
     void setFeatureVector(vector<double> newFeatVec);
     double getFeature(int f);
     double getDistanceSquared(vector<double> featVec2);

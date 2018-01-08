@@ -13,17 +13,9 @@ DFO::DFO(){
     width = ofGetWidth();
     height = ofGetHeight();
     
-    scaleF = 5;
-    //    dimensions = dimensions_;
-    //    popSize = popSize_;
-    dt = 0.01;
+           dt = 0.01;
     
-    
-    evalCount = 0;
-    FE_allowed = 30000;
-    offset = -0.0;
-    
-    bestFlyIndex = 0;
+       bestFlyIndex = 0;
     lowerFreqRange = 20;
     upperFreqRange = 6000;
 
@@ -38,7 +30,7 @@ void DFO::setup(double dimensions_, int popSize_){
     flies.resize(popSize);
     for (int i = 0; i < flies.size(); i++ ){
         flies[i] = new filterFly(dimensions, imgW, lowerFreqRange, upperFreqRange);
-       // flies[i]->init(dimensions, imgW);
+
     }
 }
 
@@ -69,13 +61,13 @@ void DFO::findNeighbors(int curr){
             rightNeighbor = i;
         }
     }
-    
-    // println( leftN + " :: " + rightN );
+ 
     
 }
 
+//fitness function. Divide current freq by ttarget. the lowere the remainder the more harmonically related
 float DFO::evaluate(vector<double> a, double target) {
-    evalCount++;
+   
     double curFreq = a[0];
     double fitness = 0;
     if (curFreq > target)
@@ -84,8 +76,7 @@ float DFO::evaluate(vector<double> a, double target) {
         fitness = remainder(target, curFreq);
 
     return abs( target - a[0] );
-    // Sphere Schwefel12 Rosenbrock GSchwefel26
-    // Rastrigin Ackley Griewank PenalizedP8 PenalizedP16
+    
 }
 
 void DFO::findBestFly() {
@@ -117,8 +108,7 @@ void DFO::getRandF_or_RingT_Neighbours(int curr, Boolean topology) {
 void DFO::run(double target){
     t = target;
     
-       if (evalCount < FE_allowed) {
-        // EVALUATION Phase
+              // EVALUATION Phase
         for (int i = 0; i < popSize; i++)
         {
             flies[i]->setFitness(evaluate(flies[i]->returnFeatureVector(), target));
@@ -130,15 +120,11 @@ void DFO::run(double target){
         // INTERACTION Phase
         for (int i = 0; i < popSize; i++) {
             
-            //  findNeighbors(i);
-            getRandF_or_RingT_Neighbours(i, true);
+                        getRandF_or_RingT_Neighbours(i, true);
             double leftP, rightP;
             
-            leftP = flies[leftNeighbor]->getFitness();// leftD *
-            // fly[leftN].getFitness();
-            rightP = flies[rightNeighbor]->getFitness();// rightD *
-            // fly[rightN].getFitness();
-            
+            leftP = flies[leftNeighbor]->getFitness();
+            rightP = flies[rightNeighbor]->getFitness();
             
             int chosen;
             if (leftP < rightP)
@@ -170,17 +156,16 @@ void DFO::run(double target){
             
         }
         
-    }
+    
 }
 
+//feed the input signal to the flys, they'll eat away with their filters
 double DFO::filter(double input){
     
     
     double output = 0;
     for (int i = 0; i < flies.size(); i++){
-       // flies[i]->setFitness(evaluate(flies[i]->returnFeatureVector(), t));
-      // if (flies[i]->fitness < 500)
-        output += (flies[i]->buzz(input) ) ;
+              output += (flies[i]->buzz(input) ) ;
     
     }
     return output;
@@ -192,8 +177,7 @@ double DFO::play(){
     
     double output = 0;
     for (int i = 0; i < flies.size(); i++){
-        // flies[i]->setFitness(evaluate(flies[i]->returnFeatureVector(), t));
-         //if (flies[i]->fitness < 50)
+        
         output += (flies[i]->newBuzz() ) ;
         
     }
@@ -202,60 +186,7 @@ double DFO::play(){
 }
 
 
-double DFO::Sphere(vector<double> p) {
-    double a = 0;
-    for (int i = 0; i < dimensions; i++) {
-        a = a + pow(p[i] + offset, 2);
-    }
-    
-    return a;
-}
 
-void DFO::display(){
-    ofPushStyle();
-    // Draw the flies and update their positions
-    for (int i = 0; i < popSize; i++) {
-        ofSetColor(255, 255, 255);
-        
-        
-        if (true) {
-            ofSetColor(200, 200, 200, 5);
-            ofSetLineWidth((float) 10.5);
-            ofLine(width / 2, 0, width / 2, height); // y
-            ofPushMatrix();
-            ofTranslate(imgW * scaleF / 2, imgH * scaleF / 2);
-            
-            int gap = height / (dimensions + 1);
-            for (int d = 0; d < dimensions; d++) {
-                ofSetColor(0, 0, 0, 100);
-                ofSetLineWidth((float) 0.3);
-                // Horizontal Lines
-                int xGap = imgW * scaleF / 2;
-                int yGap = -imgW * scaleF / 2 + gap * (d + 1);
-                
-                ofLine(-xGap, yGap, xGap, yGap);
-                
-                // flies position
-                int eSize = 5;
-                if (i == bestFlyIndex) {
-                    ofSetColor(255, 0, 0);
-                    eSize = eSize * 2;// 5;
-                }else{
-                    ofSetColor(0);
-                }
-                ofDrawEllipse((float) flies[i]->getFeature(d) * scaleF / 2, yGap, eSize, eSize);
-                
-                // }
-            }
-            
-            ofPopMatrix();
-            
-        }
-        
-    }
-    ofPopStyle();
-    
-}
 
 void DFO::reset(){
 

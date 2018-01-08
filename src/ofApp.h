@@ -6,6 +6,8 @@
 #include "DFO.hpp"
 #include "ofxImGui.h"
 
+/*BE CAREFUL WITH THIS AS CAN FEEDBACK*/
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -26,6 +28,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
       float torus(float input);
   
+    //standard max stuff
     void audioOut(float * output, int bufferSize, int nChannels);
     void audioIn(float * input, int bufferSize, int nChannels);
 
@@ -40,7 +43,7 @@ class ofApp : public ofBaseApp{
     
 
     
-    //MAXIMILIAN STUFF:
+    /*BE CAREFUL WITH THIS AS CAN FEEDBACK*/
     double wave,sample,outputs[2], ifftVal;
     maxiMix mymix;
     maxiOsc osc;
@@ -66,3 +69,5 @@ class ofApp : public ofBaseApp{
     DFO dfo;
     ofxImGui::Gui gui;
 };
+
+/*BE CAREFUL WITH THIS AS CAN FEEDBACK*/

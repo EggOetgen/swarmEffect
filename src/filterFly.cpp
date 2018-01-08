@@ -19,12 +19,13 @@ void filterFly::setPitch(  float lowerFreqRange, float upperFreqRange){
     featVec[0] = ofRandom(  lowerFreqRange, upperFreqRange);
 }
 
+//apply filter to inpout signal
 double filterFly::buzz(double input){
 
     double output = 0;
     filter.setCutoff(featVec[0]);
     filter.setResonance(0);
-   // svf.setCutoff(200).setResonance(0).play(noise, 0, 1.0, 0,0);
+
     output = filter.play(input,  0, 1.0, 0,0);    
     return output;
 }

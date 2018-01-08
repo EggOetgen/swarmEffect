@@ -6,6 +6,8 @@
 //
 //
 
+
+/*THIS CLASS IS BASED ON THE JAVASCRIPT DFO IMPLEMENTATION BY MOHAMMA MAJID AL-RIFAIE WITH ADDED FEATURES AND FITNESS FUNCTION TO WORK WITH AUDI/*/
 #pragma once
 
 
@@ -16,7 +18,6 @@ class DFO{
 public:
     DFO();
     void setup(double dimensions_, int popSize_);
-    // void init(double dimensions, int popSize);
     void findNeighbors(int curr);
     double returnFeature(int f);
     float evaluate (vector<double> a, double target);
@@ -26,10 +27,8 @@ public:
     double play();
     void getRandF_or_RingT_Neighbours(int curr, Boolean topology);
     void run(double target);
-    void display();
-    void reset();
+        void reset();
 
-    double Sphere(vector<double> p);
     
     double dimensions;
     int popSize;
@@ -37,8 +36,6 @@ public:
     
     int imgW, imgH;
     float width, height;
-    int scaleF;
-    
     vector<filterFly *> flies;
     int leftNeighbor;
     int rightNeighbor;
@@ -48,9 +45,7 @@ public:
     float lowerFreqRange, upperFreqRange;
 
     
-    int evalCount;
-    int FE_allowed;
-    double offset;
+    
     
     double t;
     
